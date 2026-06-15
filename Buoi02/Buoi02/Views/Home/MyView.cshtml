@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "MyView";
+}
+
+<h1>MyView</h1>
+<h2>@ViewBag.Message</h2>
+@{
+    var hoTen = "Trần Văn Tèo";
+}
+<h3>Hello Mr. <b>@hoTen</b></h3>
+@for (int i = 0; i < 10; i++)
+{
+    <div>5 * @i = @(5 * i)</div>
+}
