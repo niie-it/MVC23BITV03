@@ -1,0 +1,160 @@
+﻿@{
+	ViewData["Title"] = "Index";
+}
+
+<form method="post" id="register">
+	<h2 class="text-center text-danger">
+		Đăng ký Thành viên
+	</h2>
+
+	<div class="row m-1">
+		<div class="col-4 col-md-3 text-right">Mã sinh viên</div>
+		<div class="col-8 col-md-9">
+			<input name="MaSV" placeholder="Mã sinh viên" class="w-100" />
+		</div>
+
+	</div>
+	<div class="row m-1">
+
+		<div class="col-4 col-md-3 text-right">Họ tên</div>
+
+		<div class="col-8 col-md-9">
+
+			<input name="HoTen" placeholder="Họ tên Sinh viên" class="w-100" />
+
+		</div>
+
+	</div>
+	<div class="row m-1">
+
+		<div class="col-4 col-md-3 text-right">Ngày sinh</div>
+
+		<div class="col-8 col-md-9">
+
+			<input name="NgaySinh" class="w-100" />
+
+		</div>
+
+	</div>
+	<div class="row m-1">
+
+		<div class="col-4 col-md-3 text-right">Email</div>
+
+		<div class="col-8 col-md-9">
+
+			<input name="Email" placeholder="Email" class="w-100" />
+
+		</div>
+
+	</div>
+	<div class="row m-1">
+
+		<div class="col-4 col-md-3 text-right">Xác nhận email</div>
+
+		<div class="col-8 col-md-9">
+
+			<input name="XacNhanEmail" placeholder="Xác nhận email" class="w-100" />
+
+		</div>
+
+	</div>
+	<div class="row m-1">
+		<div class="col-4 col-md-3 text-right">Số tài khoản</div>
+
+		<div class="col-8 col-md-9">
+
+			<input name="SoTaiKhoan" placeholder="Số tài khoản" class="w-100" />
+
+		</div>
+
+	</div>
+	<div class="row m-1">
+		<div class="col-4 col-md-3 text-right">Hình</div>
+		<div class="col-8 col-md-9">
+			<input type="file" name="Hinh" />
+		</div>
+
+	</div>
+	<div class="row m-1">
+		<div class="col-4 col-md-3 text-right">Điểm</div>
+		<div class="col-8 col-md-9">
+			<input name="Diem" placeholder="Điểm" class="w-100" />
+		</div>
+
+	</div>
+	<div class="row m-1">
+		<div class="col-4 col-md-3 text-right">Hệ số</div>
+		<div class="col-8 col-md-9">
+			<input name="HeSo" placeholder="Hệ số" class="w-100" />
+
+		</div>
+
+	</div>
+	<div class="row m-1">
+		<div class="col-4 col-md-3 text-right">Mã bảo mật</div>
+
+		<div class="col-8 col-md-9">
+
+			<span></span>
+
+			<input name="MaBaoMat" placeholder="Mã bảo mật" class="w-100" />
+
+		</div>
+
+	</div>
+	<div class="row m-1">
+		<div class="col-4 col-md-3 text-right">Thông tin thêm</div>
+
+		<div class="col-8 col-md-9">
+
+			<textarea name="ThongTinThem" class="w-100"></textarea>
+
+		</div>
+
+	</div>
+	<div class="row m-1">
+		<div class="col-4 col-md-3 text-right"></div>
+		<div class="col-8 col-md-9">
+
+			<button class="btn btn-success">Đăng ký</button>
+
+			<button class="btn btn-danger" type="reset">Nhập lại</button>
+
+		</div>
+
+	</div>
+</form>
+@section Scripts {
+	<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+	<script>
+		//2 bước
+		//B1: Định nghĩa hàm kiểm tra
+		function checkGmail(value, element) {
+			return this.optional(element) || /^[a-z]+(\.[a-z]{2,})*@@gmail\.com$/.test(value);
+		}
+		//B2: Gắn vô hàm validator
+		$.validator.addMethod("gmail", checkGmail, "Email phải có dạng gmail.com");
+
+		$("#register").validate({
+			rules:{
+				MaSV: { required: true, minlength: 6},
+				HoTen: {required: true},
+				NgaySinh: { date: true},
+				Email: { required: true, email: true, gmail: true},
+				XacNhanEmail: { equalTo: "[name='Email']"},
+				Hinh: { extension:"jpg|png|gif"},
+				Diem: { number: true, range: [0, 10]},
+				HeSo: { digits: true, min: 1},
+				ThongTinThem: { maxlength: 255}
+			},
+			messages:{
+				MaSV: { required: "Phải nhập mã sinh viên", minlength: "Mã sinh viên phải có ít nhất 6 ký tự" }
+			},
+		});
+	</script>
+}
+<style>
+	label.error {
+		color: red
+	}
+</style>
