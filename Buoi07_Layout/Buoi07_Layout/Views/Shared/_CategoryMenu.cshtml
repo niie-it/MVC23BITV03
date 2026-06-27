@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Buoi07_Layout.Models.CategoryModel>
+
+<div class="list-group">
+	@foreach(var cate in Model)
+	{
+		<a class="list-group-item list-group-item-action" asp-action="Index" asp-controller="Product" asp-route-cateid="@cate.CategoryId">@cate.CategoryName</a>
+	}
+</div>

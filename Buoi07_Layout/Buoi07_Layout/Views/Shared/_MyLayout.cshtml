@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>@ViewBag.Title</title>
+	<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+	@await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+	<div class="container border-black">
+		<header>MY HEADER</header>
+		<div class="row" style="min-height:400px">
+			<aside class="col-3 border-black">
+				<ul class="nav flex-column">
+					<li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Home">Home</a></li>
+					<li class="nav-item"><a class="nav-link" asp-action="About" asp-controller="Home">About</a></li>
+					<li class="nav-item"><a class="nav-link" asp-action="Contact" asp-controller="Home">Contact</a></li>
+				</ul>
+				@{
+					var categories = new List<Buoi07_Layout.Models.CategoryModel>
+					{
+						new CategoryModel { CategoryId = 1, CategoryName = "Tablet" },
+						new CategoryModel { CategoryId = 2, CategoryName = "Laptop" },
+						new CategoryModel { CategoryId = 3, CategoryName = "Smartphone" },
+						new CategoryModel { CategoryId = 4, CategoryName = "Smartwatch" }
+					};
+				}
+				@await Html.PartialAsync("_CategoryMenu", categories)
+
+			</aside>
+			<div class="col-9 border-black">
+				@RenderBody()
+			</div>
+		</div>
+		<footer class="bg-dark m-1 text-center">&copy; @DateTime.Now.Year NIIE. All rights reserved.</footer>
+	</div>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
