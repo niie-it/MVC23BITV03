@@ -43,10 +43,10 @@
                 @Html.DisplayFor(modelItem => item.SoLuong)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Hinh)
+                <img src="~/Hinh/HangHoa/@item.Hinh" alt="@item.TenHH" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Loai.MaLoai)
+                @Html.DisplayFor(modelItem => item.Loai.TenLoai)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MaHH">Edit</a> |

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Buoi08_EFCoreCodeFirst.Data;
+using Buoi08_EFCoreCodeFirst.Models;
 
 namespace Buoi08_EFCoreCodeFirst.Controllers
 {
@@ -47,24 +48,27 @@ namespace Buoi08_EFCoreCodeFirst.Controllers
         // GET: HangHoas/Create
         public IActionResult Create()
         {
-            ViewData["MaLoai"] = new SelectList(_context.Loais, "MaLoai", "MaLoai");
+            ViewData["MaLoai"] = new SelectList(_context.Loais, "MaLoai", "TenLoai");
             return View();
         }
 
-        // POST: HangHoas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaHH,TenHH,DonGia,SoLuong,Hinh,MaLoai")] HangHoa hangHoa)
+        public async Task<IActionResult> Create([Bind("MaHH,TenHH,DonGia,SoLuong,MaLoai")] HangHoa hangHoa, IFormFile Hinh)
         {
-            if (ModelState.IsValid)
+            if (Hinh != null && Hinh.Length > 0)
+            {
+                hangHoa.Hinh = MyTool.UploadFileToFolder(Hinh, "HangHoa");
+            }
+
+            try
             {
                 _context.Add(hangHoa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MaLoai"] = new SelectList(_context.Loais, "MaLoai", "MaLoai", hangHoa.MaLoai);
+            catch (Exception ex) { }
+            ViewData["MaLoai"] = new SelectList(_context.Loais, "MaLoai", "TenLoai", hangHoa.MaLoai);
             return View(hangHoa);
         }
 
@@ -81,7 +85,7 @@ namespace Buoi08_EFCoreCodeFirst.Controllers
             {
                 return NotFound();
             }
-            ViewData["MaLoai"] = new SelectList(_context.Loais, "MaLoai", "MaLoai", hangHoa.MaLoai);
+            ViewData["MaLoai"] = new SelectList(_context.Loais, "MaLoai", "TenLoai", hangHoa.MaLoai);
             return View(hangHoa);
         }
 
@@ -90,33 +94,37 @@ namespace Buoi08_EFCoreCodeFirst.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MaHH,TenHH,DonGia,SoLuong,Hinh,MaLoai")] HangHoa hangHoa)
+        public async Task<IActionResult> Edit(int id, [Bind("MaHH,TenHH,DonGia,SoLuong,Hinh,MaLoai")] HangHoa hangHoa, IFormFile HinhEdit)
         {
             if (id != hangHoa.MaHH)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+
+            try
             {
-                try
+                if (HinhEdit != null && HinhEdit.Length > 0)
                 {
-                    _context.Update(hangHoa);
-                    await _context.SaveChangesAsync();
+                    hangHoa.Hinh = MyTool.UploadFileToFolder(HinhEdit, "HangHoa");
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!HangHoaExists(hangHoa.MaHH))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Update(hangHoa);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!HangHoaExists(hangHoa.MaHH))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+
             ViewData["MaLoai"] = new SelectList(_context.Loais, "MaLoai", "MaLoai", hangHoa.MaLoai);
             return View(hangHoa);
         }
