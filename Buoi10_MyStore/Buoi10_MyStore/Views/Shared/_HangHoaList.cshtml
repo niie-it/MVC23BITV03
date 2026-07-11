@@ -1,0 +1,23 @@
+﻿@model List<HangHoaVM>
+<ul class="mystyle-products">
+	@foreach (var item in Model)
+	{
+		<li class="product">
+			<a href="14-single-product.html">
+				<span class="onsale">Sale!</span>
+				<img alt="@item.TenHh" class="attachment-shop_catalog " src="~/Hinh/HangHoa/@item.Hinh" />
+				<h3>@item.TenHh</h3>
+				<span class="price">
+					<del> <span class="amount">399.000 ₫</span> </del>
+					<ins> <span class="amount">@item.DonGia ₫</span> </ins>
+					<span class="sale-tag sale-tag-square">-33%</span>
+				</span>
+			</a>
+			<a class="button add_to_cart_button product_type_simple" rel="nofollow" href="#">
+				Mua ngay
+			</a>
+			<a href="#" class="btn btn-dark btn-circle btn-review" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="ion ion-ios-move"></i></a>
+		</li>
+	}
+</ul>
+<link rel="stylesheet" href="~/css/HangHoa.css" />

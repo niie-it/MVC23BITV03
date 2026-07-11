@@ -11,13 +11,51 @@ namespace Buoi10_MyStore.Controllers
         {
             _context = context;
         }
+
+        public IActionResult Search()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Search(string? keyword, double? fromPrice, double? toPrice)
+        {
+            var dsHangHoas = _context.HangHoas.AsQueryable();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                dsHangHoas = dsHangHoas.Where(hh => hh.TenHh.Contains(keyword));
+            }
+            if (fromPrice.HasValue)
+            {
+                dsHangHoas = dsHangHoas.Where(hh => hh.DonGia >= fromPrice.Value);
+            }
+            if (toPrice.HasValue)
+            {
+                dsHangHoas = dsHangHoas.Where(hh => hh.DonGia <= toPrice.Value);
+            }
+            var result = dsHangHoas
+                .Select(hh => new HangHoaVM
+                {
+                    MaHh = hh.MaHh,
+                    TenHh = hh.TenHh,
+                    DonGia = hh.DonGia ?? 0,
+                    Hinh = hh.Hinh,
+                    SoLuong = hh.SoLanXem, //ví dụ
+                    TenLoai = hh.MaLoaiNavigation.TenLoai,
+                    TenNcc = hh.MaNccNavigation.TenCongTy
+                }).ToList();
+            return View("Search", result);
+        }
+
         public IActionResult Index()
         {
             var dsHangHoas = _context.HangHoas
                 .Select(hh => new HangHoaVM
                 {
-                    MaHh = hh.MaHh, TenHh = hh.TenHh,
-                    DonGia = hh.DonGia ?? 0, Hinh = hh.Hinh,
+                    MaHh = hh.MaHh,
+                    TenHh = hh.TenHh,
+                    DonGia = hh.DonGia ?? 0,
+                    Hinh = hh.Hinh,
                     SoLuong = hh.SoLanXem, //ví dụ
                     TenLoai = hh.MaLoaiNavigation.TenLoai,
                     TenNcc = hh.MaNccNavigation.TenCongTy

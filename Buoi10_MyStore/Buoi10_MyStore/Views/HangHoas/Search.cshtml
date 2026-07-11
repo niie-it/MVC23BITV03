@@ -1,0 +1,27 @@
+﻿@model List<HangHoaVM>
+@{
+	ViewData["Title"] = "Search";
+}
+
+<h1>Search</h1>
+
+<form asp-action="Search">
+	Tìm theo: <input name="Keyword" placeholder="Nhập từ khóa..." />
+	<br />
+	Giá từ: <input name="FromPrice" type="number" placeholder="Giá từ..." />
+	đến: <input name="ToPrice" type="number" placeholder="Giá đến..." />
+	<button type="submit">Tìm kiếm</button>
+</form>
+
+@if (Model != null)
+{
+	if (Model.Count == 0)
+	{
+		<p>Không tìm thấy sản phẩm nào.</p>
+	}
+	else
+	{
+		<div class="text-danger">Có <b>@Model.Count</b> sản phẩm.</div>
+		@await Html.PartialAsync("_HangHoaList", Model)
+	}
+}
