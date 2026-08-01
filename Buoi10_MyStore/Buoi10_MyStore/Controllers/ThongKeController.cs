@@ -1,4 +1,5 @@
 ﻿using Buoi10_MyStore.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Buoi10_MyStore.Controllers
@@ -45,6 +46,7 @@ namespace Buoi10_MyStore.Controllers
             return Json(data);
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();

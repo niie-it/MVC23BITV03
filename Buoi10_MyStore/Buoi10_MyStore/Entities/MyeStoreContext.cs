@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Buoi10_MyStore.Models;
 
 namespace Buoi10_MyStore.Entities;
 
@@ -443,4 +444,6 @@ public partial class MyeStoreContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+public DbSet<Buoi10_MyStore.Models.LoginVM> LoginVM { get; set; } = default!;
 }

@@ -24,3 +24,6 @@ và thêm dòng lệnh sau trước ```app.UseAuthorization()```:
 ```
 app.UseAuthentication();
 ```
+
+2. Bước 2: Tạo Controller xử lý đăng nhập (AccountController.cs)
+
